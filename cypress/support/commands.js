@@ -24,17 +24,13 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('highlight', { prevSubject: true }, (subject, color = 'red', duration = 1000) => {
-    // Highlight the element
-    cy.wrap(subject).should('be.visible').then(($el) => {
-      const originalColor = $el.css('border-color');
-      $el.css('border', `2px solid ${color}`);
-      // Remove the highlight after the default duration
-      cy.wait(duration);
-      $el.css('border', `2px solid ${originalColor}`);
+Cypress.Commands.add('highlight', { prevSubject: 'element' }, (subject) => {
+    cy.wrap(subject).then($el => {
+      $el.css('border', '2px solid red');
     });
-  
-    // Return the subject for chaining
-    return subject;
   });
+
+
+
+
   

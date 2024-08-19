@@ -1,6 +1,13 @@
 /// <reference types="cypress" />
 
+
 describe('Saucedemo tests', () => {
+    before(() => {
+        cy.clearAllCookies()
+        cy.clearAllLocalStorage()
+        cy.clearAllSessionStorage()
+    });
+
     beforeEach(() => {
         cy.intercept('https://events.backtrace.io/api/summed-events/submit?universe=UNIVERSE&token=TOKEN', {
             body: undefined
@@ -22,6 +29,7 @@ describe('Saucedemo tests', () => {
         cy.get('.product_sort_container').select('lohi')
         cy.get('.product_sort_container')
         .should('have.value', 'lohi')
+        cy.get('.select_container').highlight()
         cy.screenshot('set_price')
     });
 
@@ -31,7 +39,7 @@ describe('Saucedemo tests', () => {
         cy.get('.shopping_cart_badge')
         .should('contain', '1').click()
         cy.get('.cart_item')
-        .should('have.length', 1)
+        .should('have.length', 1).highlight()
         cy.screenshot('add_to_cart')
     });
 
@@ -50,7 +58,7 @@ describe('Saucedemo tests', () => {
         cy.get('#finish').click()
 
         cy.get('[data-test="complete-header"]')
-        .should('contain', 'Thank you for your order!')
+        .should('contain', 'Thank you for your order!').highlight()
         cy.screenshot('fill_the_form')
     });
 });
